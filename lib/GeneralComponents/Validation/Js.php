@@ -10,7 +10,7 @@
  * @author Neil Crosby <neil@neilcrosby.com>
  * @license Creative Commons Attribution-Share Alike 3.0 Unported http://creativecommons.org/licenses/by-sa/3.0/
  */
-class AoeComponents_Validation_Js extends Menta_Component_Abstract {
+class GeneralComponents_Validation_Js extends Menta_Component_Abstract {
     
 //    const FILE_NOT_FOUND = -2;
     const NO_LINTER_RESPONSE = -1;
@@ -24,7 +24,7 @@ class AoeComponents_Validation_Js extends Menta_Component_Abstract {
     
     const LINES_PER_ERROR = 3;
 
-	protected $lintCommand = 'java -jar Tests/Acceptance/lib/AoeComponents/lib/JsLint/js.jar Tests/Acceptance/lib/AoeComponents/lib/JsLint/jslint.js';
+	protected $lintCommand = 'java -jar Tests/Acceptance/lib/GeneralComponents/lib/JsLint/js.jar Tests/Acceptance/lib/GeneralComponents/lib/JsLint/jslint.js';
 
 	/**
 	 * Set lint command

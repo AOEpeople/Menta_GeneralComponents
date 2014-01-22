@@ -5,7 +5,7 @@
  * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
  * @since 2011-11-26
  */
-class AoeComponents_Div {
+class GeneralComponents_Div {
 
 	/**
 	 * Return the contains statement for xpath

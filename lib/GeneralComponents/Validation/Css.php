@@ -6,7 +6,7 @@
  * @author Neil Crosby <neil@neilcrosby.com>
  * @license Creative Commons Attribution-Share Alike 3.0 Unported http://creativecommons.org/licenses/by-sa/3.0/
  */
-class AoeComponents_Validation_Css extends AoeComponents_Validation_Base {
+class GeneralComponents_Validation_Css extends GeneralComponents_Validation_Base {
     
     const ALLOW = 1;
     const DISALLOW = 0;

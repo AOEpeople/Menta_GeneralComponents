@@ -9,7 +9,7 @@
  * @author Fabrizio Branca <fabrizio.branca@aoemedia.de>
  * Refactoring and integration into TestingFramework. Usage as page objects
  */
-abstract class AoeComponents_Validation_Base extends Menta_Component_Abstract {
+abstract class GeneralComponents_Validation_Base extends Menta_Component_Abstract {
     
     const FILE_NOT_FOUND = -2;
     const NO_VALIDATOR_RESPONSE = -1;

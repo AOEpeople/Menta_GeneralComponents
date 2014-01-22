@@ -5,7 +5,7 @@ set_include_path(dirname(dirname(__FILE__)) . PATH_SEPARATOR . get_include_path(
 
 require_once 'Zend/Mail/Storage/Imap.php';
 
-class AoeComponents_ImapMail extends Menta_Component_AbstractTest {
+class GeneralComponents_ImapMail extends Menta_Component_AbstractTest {
 
 	/**
 	 * @var Zend_Mail_Storage_Imap
@@ -24,7 +24,7 @@ class AoeComponents_ImapMail extends Menta_Component_AbstractTest {
 		$parent = $this;
 		
 		$result = $this->getHelperWait()->wait(function() use ($subject, $parent) {
-			return $parent->searchMailWithSubject($subject); /* @var $parent AoeComponents_ImapMail */
+			return $parent->searchMailWithSubject($subject); /* @var $parent GeneralComponents_ImapMail */
 		}, $timeout, $sleep);
 		
 		if (!$result) {

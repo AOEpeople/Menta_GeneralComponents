@@ -8,7 +8,7 @@
  * @author Neil Crosby <neil@neilcrosby.com>
  * @license Creative Commons Attribution-Share Alike 3.0 Unported http://creativecommons.org/licenses/by-sa/3.0/
  */
-class AoeComponents_Validation_Html extends AoeComponents_Validation_Base {
+class GeneralComponents_Validation_Html extends GeneralComponents_Validation_Base {
     
     const HTML_DOCUMENT = 5;
     const HTML_CHUNK    = 10;

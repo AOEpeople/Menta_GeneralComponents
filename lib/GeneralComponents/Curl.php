@@ -1,7 +1,7 @@
 <?php
 
 
-class AoeComponents_Curl extends Menta_Component_Abstract {
+class GeneralComponents_Curl extends Menta_Component_Abstract {
 
 	/**
 	 * Get http header for get request

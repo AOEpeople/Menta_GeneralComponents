@@ -4,7 +4,7 @@
  *
  * @author Joerg Winkler <joerg.winkler@aoemedia.de>
  */
-class AoeComponents_General_Pages_GoogleCheck extends Menta_Component_AbstractTest {
+class GeneralComponents_Pages_GoogleCheck extends Menta_Component_AbstractTest {
 	
 	/**
 	 * Open page
