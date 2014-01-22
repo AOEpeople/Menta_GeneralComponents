@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-0": {
-            "AoeComponents": "lib/",
+            "GeneralComponents": "lib/",
             "Zend": "lib/"
        }
     }
