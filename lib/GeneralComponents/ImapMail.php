@@ -162,4 +162,5 @@ class GeneralComponents_ImapMail extends Menta_Component_AbstractTest {
     {
         return $this->getMailContent($subjectContains, false, $timeout = 100, $sleep = 10);
     }
+    
 }
