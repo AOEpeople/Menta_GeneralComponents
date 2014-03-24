@@ -6,61 +6,65 @@
  * information.
  *
  * [1]: http://jslint.com/rhino/jslint.js
- * 
+ *
  * @author Neil Crosby <neil@neilcrosby.com>
  * @license Creative Commons Attribution-Share Alike 3.0 Unported http://creativecommons.org/licenses/by-sa/3.0/
  */
-class GeneralComponents_Validation_Js extends Menta_Component_Abstract {
-    
+class GeneralComponents_Validation_Js extends Menta_Component_Abstract
+{
+
 //    const FILE_NOT_FOUND = -2;
     const NO_LINTER_RESPONSE = -1;
     const NO_ERROR = false;
 
     const FILE_IDENTIFIER = 'file://';
     const HTTP_IDENTIFIER = 'http://';
-    
+
     const OPTIONS_RECOMMENDED = 1;
-    const OPTIONS_GOOD_PARTS  = 2;
-    
+    const OPTIONS_GOOD_PARTS = 2;
+
     const LINES_PER_ERROR = 3;
 
-	protected $lintCommand = 'java -jar Tests/Acceptance/lib/GeneralComponents/lib/JsLint/js.jar Tests/Acceptance/lib/GeneralComponents/lib/JsLint/jslint.js';
+    protected $lintCommand = 'java -jar Tests/Acceptance/lib/GeneralComponents/lib/JsLint/js.jar Tests/Acceptance/lib/GeneralComponents/lib/JsLint/jslint.js';
 
-	/**
-	 * Set lint command
-	 *
-	 * @param $lintCommand
-	 * @return void
-	 */
-	public function setLintCommand($lintCommand) {
-		$this->lintCommand = $lintCommand;
-	}
+    /**
+     * Set lint command
+     *
+     * @param $lintCommand
+     * @return void
+     */
+    public function setLintCommand($lintCommand)
+    {
+        $this->lintCommand = $lintCommand;
+    }
 
 
-    public function getErrors() {
-        if ( !isset($this->lastResult) || !$this->lastResult || count($this->lastResult) < self::LINES_PER_ERROR  ) {
+    public function getErrors()
+    {
+        if (!isset($this->lastResult) || !$this->lastResult || count($this->lastResult) < self::LINES_PER_ERROR) {
             return self::NO_ERROR;
         }
-        
+
         $numErrors = intval(count($this->lastResult) / self::LINES_PER_ERROR);
-        
+
         $errors = array();
-        for ( $i = 0; $i < $numErrors; $i++ ) {
+        for ($i = 0; $i < $numErrors; $i++) {
             preg_match('/line (\d+) character (\d+): (.*)$/', $this->lastResult[self::LINES_PER_ERROR * $i], $matches);
-            
+
             $temp = array();
             $temp['line'] = $matches[1];
             $temp['char'] = $matches[2];
             $temp['error'] = $matches[3];
             $temp['original_line'] = $this->lastResult[self::LINES_PER_ERROR * $i + 1];
-            
+
             array_push($errors, $temp);
         }
 
         return $errors;
     }
-    
-    public function isValid($js, $aOptions = array()) {
+
+    public function isValid($js, $aOptions = array())
+    {
         $extraRules = '';
         if (isset($aOptions['options'])) {
             switch ($aOptions['options']) {
@@ -74,23 +78,23 @@ class GeneralComponents_Validation_Js extends Menta_Component_Abstract {
                     $extraRules = $aOptions['options'];
             }
         }
-        
-        if ( self::FILE_IDENTIFIER == mb_substr( $js, 0, mb_strlen(self::FILE_IDENTIFIER)) ) {
+
+        if (self::FILE_IDENTIFIER == mb_substr($js, 0, mb_strlen(self::FILE_IDENTIFIER))) {
             // load from file instead of just using the given string
-            $file = mb_substr( $js, mb_strlen(self::FILE_IDENTIFIER));
+            $file = mb_substr($js, mb_strlen(self::FILE_IDENTIFIER));
             $js = file_get_contents($file);
-        } else if ( self::HTTP_IDENTIFIER == mb_substr( $js, 0, mb_strlen(self::HTTP_IDENTIFIER)) ) {
+        } else if (self::HTTP_IDENTIFIER == mb_substr($js, 0, mb_strlen(self::HTTP_IDENTIFIER))) {
             // load from http instead of just using the given string
             $js = file_get_contents($js);
         }
-        
+
         // save the JS (along with extra jslint options) to a temporary file
-        $file = tempnam( "/tmp", "jslint-" );
-        file_put_contents($file, $extraRules."\n".$js);
+        $file = tempnam("/tmp", "jslint-");
+        file_put_contents($file, $extraRules . "\n" . $js);
 
         // Build lint command to output stderr to OS variant of /dev/null to suppress Java/Rhino error messages.
         $lintCommand = $this->lintCommand . ' ' . $file;
-        if ( PHP_OS == 'WINNT' || PHP_OS == 'WIN32' || PHP_OS == 'Windows' ) {
+        if (PHP_OS == 'WINNT' || PHP_OS == 'WIN32' || PHP_OS == 'Windows') {
             $lintCommand .= ' 2>nul';
         } else {
             $lintCommand .= ' 2>/dev/null';
@@ -98,7 +102,7 @@ class GeneralComponents_Validation_Js extends Menta_Component_Abstract {
 
         // now actually run the linting command, capturing the exit code
         $exitCode = 0;
-        $output = exec( $lintCommand, $result, $exitCode );
+        $output = exec($lintCommand, $result, $exitCode);
 
         // TODO: throw exceptions or provide error feedback under the error conditions
         // exit codes       output      meaning
@@ -110,31 +114,31 @@ class GeneralComponents_Validation_Js extends Menta_Component_Abstract {
         //  3               -           ???
         //  4               empty       Rhino couldn't find jslint.js
 
-        unlink( $file );
+        unlink($file);
 
         $this->lastResult = $result;
-        
+
         // Return no response if we got anything but linting success or failure from linting command
-        if ( $exitCode != 0 && $exitCode != 2 ) {
+        if ($exitCode != 0 && $exitCode != 2) {
             return self::NO_LINTER_RESPONSE;
         }
-        
+
         return $exitCode == 0;
     }
 
 
-
-	/**
-	 * Get validation errors
-	 *
-	 * @param $input
-	 * @param array $options
-	 * @return array|bool|int
-	 */
-	public function getValidationErrors($input, $options = array()) {
+    /**
+     * Get validation errors
+     *
+     * @param $input
+     * @param array $options
+     * @return array|bool|int
+     */
+    public function getValidationErrors($input, $options = array())
+    {
         $isValid = $this->isValid($input, $options);
 
-        if (self::NO_LINTER_RESPONSE === $isValid ) {
+        if (self::NO_LINTER_RESPONSE === $isValid) {
             $this->getTest()->markTestSkipped('No validator response');
         } elseif ($isValid) {
             return false;
@@ -142,7 +146,7 @@ class GeneralComponents_Validation_Js extends Menta_Component_Abstract {
 
         return $this->getErrors();
     }
-    
+
 }
 
 #$linter = new TheCodeTrainJsLinter('java org.mozilla.javascript.tools.shell.Main ~/Library/JSLint/jslint.js');
