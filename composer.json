@@ -1,14 +1,14 @@
 {
-    "name": "aoemedia/aoecomponents",
+    "name": "aoepeople/menta_generalcomponents",
     "type": "library",
     "description": "General purpose components for Menta",
     "keywords": ["selenium", "webdriver", "phpunit", "browser"],
-    "homepage": "http://www.aoemedia.de",
+    "homepage": "http://www.aoe.com",
     "license": "Apache",
     "authors": [
         {
             "name": "Fabrizio Branca",
-            "email": "menta@fabrizio-branca.de",
+            "email": "menta@{firstname}-{lastname}.de",
             "homepage": "http://www.fabrizio-branca.de",
             "role": "Developer"
         }
